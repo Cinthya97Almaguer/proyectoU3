@@ -24,6 +24,6 @@ public class SaldoBusiness {
      */
     public void execute(JmsMessage jmsMessage) {
         JmsMessage jmsMessageSaldo = new JmsMessage(jmsMessage.getMessage(), jmsMessage.getProperties());
-        jmsSender.send("buroResp.out", jmsMessageSaldo);
+        jmsSender.send("validar.in", jmsMessageSaldo);
     }
 }
