@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
-import edu.itq.soa.dao.SaldoDao;
+
 import edu.itq.soa.dto.JmsMessage;
 import edu.itq.soa.dto.Request;
 import edu.itq.soa.dto.ResponseBuro;
@@ -32,7 +32,7 @@ public class RequestBusiness {
 
          // Determinar el estado del crédito
          String buenHistorial;
-         if (historial > 75) {
+         if (historial > 5) {
              buenHistorial = "PREAUTORIZADO";
          } else {
              buenHistorial = "RECHAZADO";
