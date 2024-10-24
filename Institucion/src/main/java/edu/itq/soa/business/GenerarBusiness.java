@@ -39,7 +39,7 @@ public class GenerarBusiness {
             JmsMessage jmsMessageSaldo = new JmsMessage(saldoJson, jmsMessage.getProperties());
             
             // Enviar el mensaje a la cola "tabla.out"
-            jmsSender.send("tabla.in", jmsMessageSaldo);
+            jmsSender.send("tabla.out", jmsMessageSaldo);
 
         } else if ("RECHAZADO".equals(request.Credito())) {
             // Enviar a la cola "credito.out" si el crédito es rechazado

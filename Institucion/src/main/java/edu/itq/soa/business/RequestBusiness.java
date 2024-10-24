@@ -43,6 +43,6 @@ public class RequestBusiness {
 //        String saldoJson = "{\"numeroTelefononico\": \"" + request.numeroTelefonico() + "\"}";
         String saldoJson = gson.toJson(requesthisorial);
         JmsMessage jmsMessageSaldo = new JmsMessage(saldoJson, jmsMessage.getProperties());
-        jmsSender.send("validar.in", jmsMessageSaldo);
+        jmsSender.send("buro.in", jmsMessageSaldo);
     }
 }
