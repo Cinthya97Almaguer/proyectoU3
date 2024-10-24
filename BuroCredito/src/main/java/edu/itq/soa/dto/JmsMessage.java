@@ -88,5 +88,6 @@ public class JmsMessage {
     @Override
     public String toString() {
         return "JmsMessage [message=" + message + ", properties=" + properties + "]";
+        
     }
 }
