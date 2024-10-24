@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.soa.tools.SOAException;
 
+import edu.itq.soa.business.GenerarBusiness;
 import edu.itq.soa.business.RequestBusiness;
 import edu.itq.soa.dto.JmsMessage;
 import edu.itq.soa.dto.JmsMessageRec;
@@ -23,9 +24,9 @@ public class GenerarListener {
 
     /** Objeto para manejar la lógica de negocio de las peticiones. */
     @Autowired
-    RequestBusiness requestBusiness;
+    GenerarBusiness requestBusiness;
 
-    @JmsListener(destination = "tabla.out")
+    @JmsListener(destination = "tabla.in")
     public void receive(Message message) {
         try {
             TextMessage textMessage = (TextMessage) message;
