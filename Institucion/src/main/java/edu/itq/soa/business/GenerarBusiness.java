@@ -30,19 +30,38 @@ public class GenerarBusiness {
         Gson gson = new Gson();
         Request request = gson.fromJson(jmsMessage.getMessage(), Request.class);
         
+     // Validar el estado del crédito
+        if ("PREAUTORIZADO".equals(request.Credito())) {
+            // Continuar con el proceso si el crédito está preautorizado
+            String saldoJson = generarJsonDeSaldo(request); // Método ficticio que genera el JSON de saldo
 
-        int historialAleatorio = random.nextInt(50) + 50; 
-        
-        RequestValidar requesthisorial = new RequestValidar(
-                request.nombre(), request.apellidoPaterno(), request.apellidoMaterno(),
-                request.numeroTarjeta(), request.numeroCuenta(), request.tasa(), request.plazo(),
-                request.monto(), String.valueOf(historialAleatorio)); // Convertir a String
-        
-        
-        
-//        String saldoJson = "{\"numeroTelefononico\": \"" + request.numeroTelefonico() + "\"}";
-        String saldoJson = gson.toJson(requesthisorial);
-        JmsMessage jmsMessageSaldo = new JmsMessage(saldoJson, jmsMessage.getProperties());
-        jmsSender.send("buro.in", jmsMessageSaldo);
+            // Crear un nuevo mensaje JMS con el saldo generado
+            JmsMessage jmsMessageSaldo = new JmsMessage(saldoJson, jmsMessage.getProperties());
+            
+            // Enviar el mensaje a la cola "tabla.out"
+            jmsSender.send("tabla.out", jmsMessageSaldo);
+
+        } else if ("RECHAZADO".equals(request.Credito())) {
+            // Enviar a la cola "credito.out" si el crédito es rechazado
+            String rechazoJson = generarJsonDeRechazo(request); // Método ficticio que genera el JSON de rechazo
+
+            // Crear un nuevo mensaje JMS con el rechazo
+            JmsMessage jmsMessageRechazo = new JmsMessage(rechazoJson, jmsMessage.getProperties());
+            
+            // Enviar el mensaje a la cola "credito.out"
+            jmsSender.send("credito.out", jmsMessageRechazo);
+        }
+    }
+
+    // Método ficticio que genera el JSON de saldo basado en el objeto Request
+    private String generarJsonDeSaldo(Request request) {
+        // Aquí generas el JSON de saldo según tus reglas de negocio
+        return "{\"status\":\"preautorizado\", \"detalle\":\"Saldo generado correctamente\"}";
+    }
+
+    // Método ficticio que genera el JSON de rechazo basado en el objeto Request
+    private String generarJsonDeRechazo(Request request) {
+        // Aquí generas el JSON de rechazo según tus reglas de negocio
+        return "{\"status\":\"rechazado\", \"detalle\":\"Crédito rechazado\"}";
     }
 }

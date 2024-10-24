@@ -25,7 +25,7 @@ public class GenerarListener {
     @Autowired
     RequestBusiness requestBusiness;
 
-    @JmsListener(destination = "credito.in")
+    @JmsListener(destination = "tabla.in")
     public void receive(Message message) {
         try {
             TextMessage textMessage = (TextMessage) message;
