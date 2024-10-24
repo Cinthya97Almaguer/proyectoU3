@@ -37,6 +37,16 @@ public class Amortizacion {
 		return null;
 	}
 
+    public String getNumeroPago() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Object pd() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     // Getters y Setters (opcional si usas Lombok)
 }
 
