@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
-import edu.itq.soa.dao.SaldoDao;
+
 import edu.itq.soa.dto.JmsMessage;
 import edu.itq.soa.dto.Request;
 import edu.itq.soa.dto.Response;
@@ -17,8 +17,7 @@ import edu.itq.soa.jms.JmsSender;
 @Component
 public class RequestBusiness {
 
-    @Autowired
-    private SaldoDao saldoDao;
+   
 
     @Autowired
     private JmsSender jmsSender;
@@ -59,7 +58,7 @@ public class RequestBusiness {
 
         // Convertir a JSON y enviar el mensaje
         JmsMessage jmsMessageSaldo = new JmsMessage(gson.toJson(response), jmsMessage.getProperties());
-        jmsSender.send("tabla.in", jmsMessageSaldo);
+        jmsSender.send("tabla.out", jmsMessageSaldo);
     }
 
     private double calcularPagoMensual(double monto, double tasa, int plazo) {

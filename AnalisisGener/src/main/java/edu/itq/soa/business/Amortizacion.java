@@ -2,10 +2,7 @@ package edu.itq.soa.business;
 
 public class Amortizacion {
     private int numeroPago;
-    private double pagoMensual;
-    private double interes;
-    private double capital;
-    private double saldoRestante;
+    private double pagoMensual, interes, capital, saldoRestante;
 
     public Amortizacion(int numeroPago, double pagoMensual, double interes, double capital, double saldoRestante) {
         this.numeroPago = numeroPago;
