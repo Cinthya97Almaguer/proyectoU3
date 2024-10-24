@@ -12,6 +12,31 @@ public class Amortizacion {
         this.saldoRestante = saldoRestante;
     }
 
+	public Object getPeriodo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getPagoMensual() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getInteres() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getCapital() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getSaldo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
     // Getters y Setters (opcional si usas Lombok)
 }
 

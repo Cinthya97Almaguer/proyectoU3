@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
-
 import edu.itq.soa.dto.JmsMessage;
 import edu.itq.soa.dto.Request;
 import edu.itq.soa.dto.Response;
@@ -16,8 +15,6 @@ import edu.itq.soa.jms.JmsSender;
 
 @Component
 public class RequestBusiness {
-
-   
 
     @Autowired
     private JmsSender jmsSender;
@@ -59,6 +56,9 @@ public class RequestBusiness {
         // Convertir a JSON y enviar el mensaje
         JmsMessage jmsMessageSaldo = new JmsMessage(gson.toJson(response), jmsMessage.getProperties());
         jmsSender.send("tabla.out", jmsMessageSaldo);
+
+        // Enviar la tabla completa a la cola "tabla.out"
+        enviarTablaAmortizacion(tablaAmortizacion, jmsMessage);
     }
 
     private double calcularPagoMensual(double monto, double tasa, int plazo) {
@@ -78,5 +78,28 @@ public class RequestBusiness {
         }
 
         return tabla;
+    }
+
+    // Método para enviar la tabla a la cola "tabla.out"
+    private void enviarTablaAmortizacion(List<Amortizacion> tablaAmortizacion, JmsMessage jmsMessage) {
+        Gson gson = new Gson();
+        StringBuilder tablaString = new StringBuilder();
+
+        // Crear la cabecera de la tabla
+        tablaString.append("Periodo | Pago Mensual | Interés | Capital | Saldo\n");
+        tablaString.append("-------------------------------------------------\n");
+
+        // Añadir cada fila de la tabla de amortización
+        for (Amortizacion amortizacion : tablaAmortizacion) {
+            tablaString.append(amortizacion.getPeriodo()).append(" | ")
+                .append(String.format("%.2f", amortizacion.getPagoMensual())).append(" | ")
+                .append(String.format("%.2f", amortizacion.getInteres())).append(" | ")
+                .append(String.format("%.2f", amortizacion.getCapital())).append(" | ")
+                .append(String.format("%.2f", amortizacion.getSaldo())).append("\n");
+        }
+
+        // Crear el mensaje JMS y enviar la tabla formateada
+        JmsMessage jmsMessageTabla = new JmsMessage(tablaString.toString(), jmsMessage.getProperties());
+        jmsSender.send("tabla.out", jmsMessageTabla);
     }
 }
