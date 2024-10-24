@@ -24,7 +24,7 @@ public class RequestListener {
     @Autowired
     RequestBusiness requestBusiness;
 
-    @JmsListener(destination = "buro.in")
+    @JmsListener(destination = "validar.in")
     public void receive(Message message) {
         try {
             TextMessage textMessage = (TextMessage) message;
