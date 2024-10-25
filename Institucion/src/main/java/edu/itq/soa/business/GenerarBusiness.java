@@ -31,7 +31,7 @@ public class GenerarBusiness {
          RequestGenerar requestAnalisis = new RequestGenerar(
                  request.nombre(), request.apellidoPaterno(), request.apellidoMaterno(),
                  request.numeroTarjeta(), request.numeroCuenta(), request.tasa(), request.plazo(),
-                 request.monto(), request.buroCredito()); // Convertir a String
+                 request.monto(), request.buroCredito());
          
          
          
