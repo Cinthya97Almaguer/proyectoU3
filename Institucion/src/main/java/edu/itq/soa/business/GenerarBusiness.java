@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
-import java.util.Random;
 
 import edu.itq.soa.dto.JmsMessage;
-import edu.itq.soa.dto.Request;
-import edu.itq.soa.dto.RequestValidar;
+import edu.itq.soa.dto.RequestGenerar;
 import edu.itq.soa.jms.JmsSender;
 
 /**
@@ -24,44 +22,23 @@ public class GenerarBusiness {
     @Autowired
     private JmsSender jmsSender;
     
-    private final Random random = new Random(); 
 
     public void execute(JmsMessage jmsMessage) {
-        Gson gson = new Gson();
-        Request request = gson.fromJson(jmsMessage.getMessage(), Request.class);
-        
-     // Validar el estado del crédito
-        if ("PREAUTORIZADO".equals(request.Credito())) {
-            // Continuar con el proceso si el crédito está preautorizado
-            String saldoJson = generarJsonDeSaldo(request); // Método ficticio que genera el JSON de saldo
+    	 Gson gson = new Gson();
+         RequestGenerar request = gson.fromJson(jmsMessage.getMessage(), RequestGenerar.class);
+         
 
-            // Crear un nuevo mensaje JMS con el saldo generado
-            JmsMessage jmsMessageSaldo = new JmsMessage(saldoJson, jmsMessage.getProperties());
-            
-            // Enviar el mensaje a la cola "tabla.out"
-            jmsSender.send("tabla.out", jmsMessageSaldo);
+         RequestGenerar requestAnalisis = new RequestGenerar(
+                 request.nombre(), request.apellidoPaterno(), request.apellidoMaterno(),
+                 request.numeroTarjeta(), request.numeroCuenta(), request.tasa(), request.plazo(),
+                 request.monto(), request.buroCredito()); // Convertir a String
+         
+         
+         
+//         String saldoJson = "{\"numeroTelefononico\": \"" + request.numeroTelefonico() + "\"}";
+         String saldoJson = gson.toJson(requestAnalisis);
+         JmsMessage jmsMessageSaldo = new JmsMessage(saldoJson, jmsMessage.getProperties());
+         jmsSender.send("tabla.in", jmsMessageSaldo);
+     }
 
-        } else if ("RECHAZADO".equals(request.Credito())) {
-            // Enviar a la cola "credito.out" si el crédito es rechazado
-            String rechazoJson = generarJsonDeRechazo(request); // Método ficticio que genera el JSON de rechazo
-
-            // Crear un nuevo mensaje JMS con el rechazo
-            JmsMessage jmsMessageRechazo = new JmsMessage(rechazoJson, jmsMessage.getProperties());
-            
-            // Enviar el mensaje a la cola "credito.out"
-            jmsSender.send("credito.out", jmsMessageRechazo);
-        }
-    }
-
-    // Método ficticio que genera el JSON de saldo basado en el objeto Request
-    private String generarJsonDeSaldo(Request request) {
-        // Aquí generas el JSON de saldo según tus reglas de negocio
-        return "{\"status\":\"preautorizado\", \"detalle\":\"Saldo generado correctamente\"}";
-    }
-
-    // Método ficticio que genera el JSON de rechazo basado en el objeto Request
-    private String generarJsonDeRechazo(Request request) {
-        // Aquí generas el JSON de rechazo según tus reglas de negocio
-        return "{\"status\":\"rechazado\", \"detalle\":\"Crédito rechazado\"}";
-    }
 }
