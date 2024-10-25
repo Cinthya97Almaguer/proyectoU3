@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 import edu.itq.soa.dto.JmsMessage;
 import edu.itq.soa.dto.Request;
-import edu.itq.soa.dto.ResponseBuro;
+import edu.itq.soa.dto.ResponseDeposito;
 import edu.itq.soa.jms.JmsSender;
 
 /**
@@ -33,20 +33,21 @@ public class RequestBusiness {
          // Determinar el estado del crédito
          String buenHistorial;
          if (historial > 5) {
-             buenHistorial = "PREAUTORIZADO";
+             buenHistorial = "DEPOSITO REALIZADO ";
          } else {
              buenHistorial = "RECHAZADO";
          }
 
          // Crear la respuesta con el resultado
-         ResponseBuro responseSaldo = new ResponseBuro(
+         ResponseDeposito responseSaldo = new ResponseDeposito(
                  request.nombre(), request.apellidoPaterno(), request.apellidoMaterno(),
                  request.numeroTarjeta(), request.numeroCuenta(), request.tasa(), 
-                 request.plazo(), request.monto(), request.historial(), buenHistorial);
+                 request.plazo(), request.monto(), request.historial(), request.Credito(), request.pd(),
+                 request.pagoMensual(), request.interes(), request.capital(), request.saldoActual(), request.total(), " ", " " );
 
          // Convertir la respuesta a JSON y enviarla por JMS
          JmsMessage jmsMessageSaldo = new JmsMessage(responseSaldo.toString(), jmsMessage.getProperties());
-         jmsSender.send("validar.out", jmsMessageSaldo);
+         jmsSender.send("deposito.out", jmsMessageSaldo);
          
      }
  }
