@@ -30,7 +30,7 @@ public class RequestBusiness {
 
         // Calcular el pago mensual
         double pagoMensual = (monto * tasa) / (1 - Math.pow(1 + tasa, -plazo));
-
+        
         // Inicializar valores de interés, capital y saldo actual
         double saldoActual = monto;
         double interes = saldoActual * tasa;
