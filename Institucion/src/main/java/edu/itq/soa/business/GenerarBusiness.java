@@ -33,8 +33,6 @@ public class GenerarBusiness {
                  request.numeroTarjeta(), request.numeroCuenta(), request.tasa(), request.plazo(),
                  request.monto(), request.buroCredito());
          
-         
-         
 //         String saldoJson = "{\"numeroTelefononico\": \"" + request.numeroTelefonico() + "\"}";
          String saldoJson = gson.toJson(requestAnalisis);
          JmsMessage jmsMessageSaldo = new JmsMessage(saldoJson, jmsMessage.getProperties());
