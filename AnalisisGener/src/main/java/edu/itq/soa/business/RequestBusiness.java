@@ -48,7 +48,8 @@ public class RequestBusiness {
                 "12", String.format("%.2f", pagoMensual), String.format("%.2f", interes),
                 String.format("%.2f", capital), String.format("%.2f", saldoActual),
                 String.format("%.2f", total));
-
+        //Total --> Deuda mas intereses
+        
         // Convertir la respuesta a JSON y enviarla por JMS
         JmsMessage jmsMessageSaldo = new JmsMessage(responseSaldo.toString(), jmsMessage.getProperties());
         jmsSender.send("tabla.out", jmsMessageSaldo);
