@@ -17,9 +17,3 @@ public record ResponseDeposito (String nombre, String apellidoPaterno, String ap
         return gson.toJson(this);
     }
 }
-
-/*
-{
-    "numeroTelefonico": "1234567890"
-}
-*/
