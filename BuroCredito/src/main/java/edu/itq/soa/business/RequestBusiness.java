@@ -32,7 +32,7 @@ public class RequestBusiness {
 
          // Determinar el estado del crédito
          String buenHistorial;
-         if (historial > 5) {
+         if (historial > 50) {
              buenHistorial = "PREAUTORIZADO";
          } else {
              buenHistorial = "RECHAZADO";
